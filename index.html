@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cosmic Oracle — Astrology App</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;500;600&family=Lato:wght@300;400;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">
+      <span class="logo-star">✦</span>
+      COSMIC ORACLE
+    </div>
+    <nav>
+      <button class="active" onclick="showSection('horoscope', this)">Horoscope</button>
+      <button onclick="showSection('moon', this)">Moon</button>
+      <button onclick="showSection('planets', this)">Planets</button>
+      <button onclick="showSection('birthchart', this)">Birth Chart</button>
+      <button onclick="showSection('compatibility', this)">Compatibility</button>
+      <button onclick="showSection('daily', this)">Daily</button>
+    </nav>
+    <div class="date-badge">
+      <span id="live-date">—</span>
+      <span id="live-time">—</span>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HOROSCOPE -->
+    <div id="horoscope" class="section active">
+      <div class="section-header">
+        <h1>Daily Horoscope</h1>
+        <p>Choose your sun sign to receive today's cosmic guidance</p>
+      </div>
+      <div class="sign-grid" id="sign-picker"></div>
+      <div class="grid-2" style="gap:1.5rem;">
+        <div>
+          <div class="hero-zodiac">
+            <div class="zodiac-wheel-wrap">
+              <div class="zodiac-icon" id="zodiac-icon">♈</div>
+            </div>
+            <div class="sign-name" id="sign-name">Aries</div>
+            <div class="sign-dates" id="sign-dates">Mar 21 – Apr 19</div>
+            <div class="traits-row" id="traits-row" style="justify-content:center;"></div>
+          </div>
+          <div class="card" style="margin-bottom:1.2rem;">
+            <div class="card-title">⚡ Element & Modality</div>
+            <div id="element-info" style="display:flex; gap:1rem; flex-wrap:wrap;">
+              <div style="text-align:center; flex:1;">
+                <div style="font-size:2rem;" id="element-icon">🔥</div>
+                <div style="font-family:'Cinzel',serif; font-size:0.75rem; color:var(--muted); margin-top:4px;"
+                  id="element-label">Fire</div>
+              </div>
+              <div style="text-align:center; flex:1;">
+                <div style="font-size:1.5rem; color:var(--purple2); font-family:'Cinzel',serif;"
+                  id="ruling-planet-display">♂ Mars</div>
+                <div style="font-family:'Cinzel',serif; font-size:0.75rem; color:var(--muted); margin-top:4px;">Ruling
+                  Planet</div>
+              </div>
+              <div style="text-align:center; flex:1;">
+                <div style="font-size:1.1rem; font-family:'Cinzel',serif; color:var(--gold);" id="modality-display">
+                  Cardinal</div>
+                <div style="font-family:'Cinzel',serif; font-size:0.75rem; color:var(--muted); margin-top:4px;">Modality
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">🌟 Today's Energy</div>
+            <div id="energy-bars"></div>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:1.2rem;">
+            <div class="card-title">📜 Today's Reading</div>
+            <div class="loading-overlay" id="horoscope-loading">
+              <div class="spinner"></div>
+              <div class="loading-text">Reading the stars...</div>
+            </div>
+            <div id="horoscope-text" class="horoscope-text"></div>
+          </div>
+          <div class="card" style="margin-bottom:1.2rem;">
+            <div class="card-title">💫 Lucky Elements Today</div>
+            <div id="lucky-elements" class="lucky-row"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">📅 This Week</div>
+            <div id="weekly-mini" class="horoscope-text" style="font-size:0.87rem;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOON -->
+    <div id="moon" class="section">
+      <div class="section-header">
+        <h1>Moon Phase</h1>
+        <p>Live lunar data and phase calendar</p>
+      </div>
+      <div class="grid-2" style="gap:1.5rem; margin-bottom:1.5rem;">
+        <div class="card">
+          <div class="card-title">🌙 Current Moon</div>
+          <div class="loading-overlay" id="moon-loading">
+            <div class="spinner"></div>
+            <div class="loading-text">Consulting the moon...</div>
+          </div>
+          <div class="moon-display" id="moon-display">
+            <div class="moon-visual" id="moon-emoji">🌕</div>
+            <div class="moon-info">
+              <div class="moon-pct" id="moon-pct">—</div>
+              <h2 id="moon-phase-name">—</h2>
+              <div class="moon-detail" id="moon-age">—</div>
+              <div class="moon-detail" id="moon-zodiac" style="margin-top:6px;">—</div>
+              <div class="moon-detail" id="moon-next">—</div>
+            </div>
+          </div>
+          <div class="moon-phases-strip" id="phase-strip"></div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:1.2rem;">
+            <div class="card-title">🌊 Moon's Influence Today</div>
+            <div id="moon-influence" class="horoscope-text" style="font-size:0.9rem;"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">✨ Best Activities</div>
+            <div id="moon-activities"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PLANETS -->
+    <div id="planets" class="section">
+      <div class="section-header">
+        <h1>Planetary Positions</h1>
+        <p>Real-time positions of celestial bodies</p>
+      </div>
+      <div class="grid-2" style="gap:1.5rem;">
+        <div class="card">
+          <div class="card-title">☿ Planetary Alignment</div>
+          <div id="planet-list"></div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:1.2rem;">
+            <div class="card-title">🔗 Current Aspects</div>
+            <table class="aspect-table" id="aspects-table">
+              <thead>
+                <tr>
+                  <th>Planets</th>
+                  <th>Aspect</th>
+                  <th>Orb</th>
+                  <th>Influence</th>
+                </tr>
+              </thead>
+              <tbody id="aspects-body"></tbody>
+            </table>
+          </div>
+          <div class="card">
+            <div class="card-title">⚡ Retrograde Watch</div>
+            <div id="retrograde-info"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BIRTH CHART -->
+    <div id="birthchart" class="section">
+      <div class="section-header">
+        <h1>Birth Chart</h1>
+        <p>Enter your birth details for a personalized natal chart reading</p>
+      </div>
+      <div class="card" style="margin-bottom:1.5rem;">
+        <div class="card-title">📋 Your Birth Details</div>
+        <div class="birth-form">
+          <div class="form-group">
+            <label>Birth Date</label>
+            <input type="date" id="birth-date" />
+          </div>
+          <div class="form-group">
+            <label>Birth Time</label>
+            <input type="time" id="birth-time" value="12:00" />
+          </div>
+          <div class="form-group">
+            <label>Birth City</label>
+            <input type="text" id="birth-city" placeholder="e.g. New York" />
+          </div>
+        </div>
+        <button class="btn-primary" onclick="calculateBirthChart()">✦ Generate Chart</button>
+      </div>
+      <div id="birth-result">
+        <div class="grid-2" style="gap:1.5rem; margin-bottom:1.5rem;">
+          <div class="card">
+            <div class="card-title">🌞 Big Three</div>
+            <div id="big-three"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">🏠 House Placements</div>
+            <div id="house-placements"></div>
+          </div>
+        </div>
+        <div class="card" style="margin-bottom:1.5rem;">
+          <div class="card-title">🪐 Natal Planets</div>
+          <div id="natal-planets"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">📖 Chart Interpretation</div>
+          <div id="chart-interpretation" class="horoscope-text"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMPATIBILITY -->
+    <div id="compatibility" class="section">
+      <div class="section-header">
+        <h1>Love Compatibility</h1>
+        <p>Discover your cosmic connection</p>
+      </div>
+      <div class="card" style="margin-bottom:1.5rem;">
+        <div class="compat-selectors">
+          <div class="compat-select">
+            <div class="card-title" style="margin-bottom:0.5rem;">Your Sign</div>
+            <select id="compat-sign1" onchange="calculateCompatibility()"></select>
+          </div>
+          <div class="compat-heart">♥</div>
+          <div class="compat-select">
+            <div class="card-title" style="margin-bottom:0.5rem;">Their Sign</div>
+            <select id="compat-sign2" onchange="calculateCompatibility()"></select>
+          </div>
+        </div>
+      </div>
+      <div id="compat-result" style="display:none;">
+        <div class="grid-2" style="gap:1.5rem; margin-bottom:1.5rem;">
+          <div class="card">
+            <div class="card-title">💫 Overall Compatibility</div>
+            <div class="compat-score-wrap">
+              <div class="compat-score" id="compat-pct">—</div>
+              <div class="compat-label" id="compat-verdict">—</div>
+            </div>
+            <div class="compat-bars" id="compat-bars"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">❤️ Relationship Analysis</div>
+            <div id="compat-text" class="horoscope-text" style="font-size:0.88rem;"></div>
+          </div>
+        </div>
+        <div class="grid-3" style="gap:1.2rem;">
+          <div class="card">
+            <div class="card-title">✅ Strengths</div>
+            <div id="compat-strengths"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">⚠️ Challenges</div>
+            <div id="compat-challenges"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">💡 Tips</div>
+            <div id="compat-tips"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAILY -->
+    <div id="daily" class="section">
+      <div class="section-header">
+        <h1>Daily Cosmic Weather</h1>
+        <p>Today's astrological influences and cosmic forecast</p>
+      </div>
+      <div id="weather-astro-wrap" style="margin-bottom:1.5rem;"></div>
+      <div class="daily-grid" id="daily-grid" style="margin-bottom:1.5rem;"></div>
+      <div class="card">
+        <div class="card-title">📅 Weekly Forecast</div>
+        <div id="weekly-forecast"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="app.js"></script>
+  <script src="api.js"></script>
+</body>
+
+</html>
